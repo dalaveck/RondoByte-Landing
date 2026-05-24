@@ -1,0 +1,19 @@
+{
+  "name": "RondoByte",
+  "short_name": "RondoByte",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#0D1F6E",
+  "description": "RondoByte - Aplicativos, sistemas e websites em Flutter.",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

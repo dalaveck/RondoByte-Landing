@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="RondoByte - Aplicativos, sistemas e websites em Flutter.">
+  <meta name="theme-color" content="#0D1F6E">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="RondoByte">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="manifest.json">
+
+  <title>RondoByte | Aplicativos, sistemas e websites em Flutter</title>
+
+  <style>
+    html, body { margin: 0; padding: 0; background: #ffffff; }
+    #loader {
+      position: fixed; inset: 0; display: flex; align-items: center;
+      justify-content: center; background: #ffffff; z-index: 9999;
+    }
+    #loader .ring {
+      width: 56px; height: 56px; border-radius: 50%;
+      border: 4px solid #E6EAFB; border-top-color: #0D1F6E;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+  <div id="loader"><div class="ring"></div></div>
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var l = document.getElementById('loader');
+      if (l) l.remove();
+    });
+  </script>
+</body>
+</html>

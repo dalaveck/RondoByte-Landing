@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 360">
+  <defs>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.5" stop-color="#e8eeff"/>
+      <stop offset="1" stop-color="#c5d0f5"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd24d"/>
+      <stop offset="0.6" stop-color="#ff8a1a"/>
+      <stop offset="1" stop-color="#ff3b3b" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- flame -->
+  <path d="M70 270 Q100 380 130 270 Q115 320 100 330 Q85 320 70 270 Z" fill="url(#flame)"/>
+
+  <!-- body -->
+  <path d="M100 10
+           C140 60 160 120 160 180
+           L160 260
+           L40 260
+           L40 180
+           C40 120 60 60 100 10 Z"
+        fill="url(#body)" stroke="#0d1f6e" stroke-width="6"/>
+
+  <!-- window -->
+  <circle cx="100" cy="140" r="24" fill="#0d1f6e"/>
+  <circle cx="100" cy="140" r="18" fill="#4a6bff"/>
+  <circle cx="93" cy="133" r="6" fill="#ffffff" opacity="0.8"/>
+
+  <!-- fins -->
+  <path d="M40 220 L10 290 L40 270 Z" fill="#0d1f6e"/>
+  <path d="M160 220 L190 290 L160 270 Z" fill="#0d1f6e"/>
+
+  <!-- bottom band -->
+  <rect x="40" y="245" width="120" height="20" fill="#0d1f6e"/>
+</svg>
