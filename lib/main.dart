@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'theme/app_theme.dart';
 import 'widgets/nav_bar.dart';
@@ -57,25 +58,32 @@ class _LandingPageState extends State<LandingPage> {
     return Scaffold(
       body: Stack(
         children: [
-          SingleChildScrollView(
-            controller: _scrollCtrl,
-            child: Column(
-              children: [
-                const SizedBox(height: 78),
-                HeroSection(
-                  onContactTap: () => _scrollTo(_contactKey),
-                  onServicesTap: () => _scrollTo(_servicesKey),
-                ),
-                KeyedSubtree(key: _aboutKey, child: const AboutSection()),
-                KeyedSubtree(
-                  key: _servicesKey,
-                  child: const ServicesSection(),
-                ),
-                KeyedSubtree(
-                  key: _contactKey,
-                  child: const ContactSection(),
-                ),
-              ],
+          ScrollConfiguration(
+            behavior: const _SmoothScrollBehavior(),
+            child: SingleChildScrollView(
+              controller: _scrollCtrl,
+              physics: const BouncingScrollPhysics(
+                decelerationRate: ScrollDecelerationRate.normal,
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 78),
+                  HeroSection(
+                    onContactTap: () => _scrollTo(_contactKey),
+                    onServicesTap: () => _scrollTo(_servicesKey),
+                  ),
+                  KeyedSubtree(key: _aboutKey, child: const AboutSection()),
+                  KeyedSubtree(
+                    key: _servicesKey,
+                    child: const ServicesSection(),
+                  ),
+                  KeyedSubtree(
+                    key: _contactKey,
+                    child: const ContactSection(),
+                  ),
+                ],
+              ),
             ),
           ),
           ScrollingRocket(controller: _scrollCtrl),
@@ -91,6 +99,25 @@ class _LandingPageState extends State<LandingPage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SmoothScrollBehavior extends MaterialScrollBehavior {
+  const _SmoothScrollBehavior();
+
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+        PointerDeviceKind.trackpad,
+        PointerDeviceKind.stylus,
+      };
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const BouncingScrollPhysics(
+      parent: AlwaysScrollableScrollPhysics(),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/app_theme.dart';
 
 class NavBar extends StatelessWidget {
@@ -35,9 +34,14 @@ class NavBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: isWide ? 48 : 20),
       child: Row(
         children: [
-          SvgPicture.asset(
-            'assets/images/logo.svg',
-            height: 56,
+          Image.asset(
+            'assets/images/logo.png',
+            height: 60,
+            filterQuality: FilterQuality.high,
+            errorBuilder: (_, __, ___) => const SizedBox(
+              height: 60,
+              width: 60,
+            ),
           ),
           const SizedBox(width: 14),
           const Text(
@@ -56,11 +60,6 @@ class NavBar extends StatelessWidget {
             _NavLink(label: 'Serviços', onTap: onServicesTap),
             const SizedBox(width: 28),
             _NavLink(label: 'Fale Conosco', onTap: onContactTap),
-            const SizedBox(width: 28),
-            ElevatedButton(
-              onPressed: onContactTap,
-              child: const Text('Trabalhe com a gente'),
-            ),
           ] else
             IconButton(
               icon: const Icon(Icons.menu, color: AppColors.primary),

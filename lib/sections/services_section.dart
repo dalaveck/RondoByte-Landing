@@ -27,11 +27,11 @@ class ServicesSection extends StatelessWidget {
           'design e velocidade.',
     ),
     _Service(
-      icon: Icons.extension_rounded,
-      title: 'Bibliotecas Flutter',
+      icon: Icons.support_agent_rounded,
+      title: 'Consultoria',
       description:
-          'Aproveitamos o ecossistema Flutter ao máximo para acelerar entregas '
-          'sem abrir mão de qualidade.',
+          'Apoio especializado em arquitetura, escolha de stack e boas '
+          'práticas para acelerar seu projeto.',
     ),
   ];
 
@@ -39,7 +39,7 @@ class ServicesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final isWide = width > 900;
-    final cross = width > 1100 ? 4 : (width > 720 ? 2 : 1);
+    final cross = width > 1100 ? 4 : (width > 720 ? 2 : 2);
 
     return Container(
       width: double.infinity,
@@ -73,17 +73,27 @@ class ServicesSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: _services.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: cross,
-                  mainAxisSpacing: 22,
-                  crossAxisSpacing: 22,
-                  childAspectRatio: cross == 1 ? 2.4 : 0.95,
-                ),
-                itemBuilder: (_, i) => _ServiceCard(service: _services[i]),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  const spacing = 18.0;
+                  final tileWidth =
+                      (constraints.maxWidth - spacing * (cross - 1)) / cross;
+                  final tileHeight = cross == 1 ? 150.0 : 230.0;
+                  return GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _services.length,
+                    gridDelegate:
+                        SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: cross,
+                      mainAxisSpacing: spacing,
+                      crossAxisSpacing: spacing,
+                      childAspectRatio: tileWidth / tileHeight,
+                    ),
+                    itemBuilder: (_, i) =>
+                        _ServiceCard(service: _services[i]),
+                  );
+                },
               ),
             ],
           ),
@@ -122,10 +132,10 @@ class _ServiceCardState extends State<_ServiceCard> {
       onExit: (_) => setState(() => _hover = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 220),
-        padding: const EdgeInsets.all(26),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(18),
           border: Border.all(
             color: _hover ? AppColors.accent : const Color(0xFFE6EAFB),
             width: _hover ? 2 : 1,
@@ -144,34 +154,34 @@ class _ServiceCardState extends State<_ServiceCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              width: 54,
-              height: 54,
+              width: 44,
+              height: 44,
               decoration: BoxDecoration(
                 color: AppColors.primary.withOpacity(0.08),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
                 widget.service.icon,
                 color: AppColors.primary,
-                size: 28,
+                size: 22,
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 14),
             Text(
               widget.service.title,
               style: const TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             Expanded(
               child: Text(
                 widget.service.description,
                 style: const TextStyle(
-                  fontSize: 14,
-                  height: 1.55,
+                  fontSize: 13,
+                  height: 1.5,
                   color: AppColors.textMuted,
                 ),
               ),

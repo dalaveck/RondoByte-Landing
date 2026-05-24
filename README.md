@@ -9,6 +9,13 @@ Landing page institucional da **RondoByte**, construída com **Flutter Web**.
 - `url_launcher` — abrir links de contato
 - `google_fonts` — tipografia Poppins
 
+## Logo original
+
+Para preservar a logo original da RondoByte, coloque os arquivos nesses caminhos antes de rodar:
+
+- `assets/images/logo.png` — logo usada no canto superior esquerdo
+- `web/favicon.png` — favicon do navegador (idealmente 512×512)
+
 ## Como rodar
 
 Pré-requisito: Flutter SDK 3.19+ instalado (`flutter doctor`).
@@ -41,10 +48,10 @@ lib/
     services_section.dart
     contact_section.dart
 assets/images/
-  logo.svg                   # logo RondoByte (header)
+  logo.png                   # ⚠ adicione a logo original aqui
   rocket.svg                 # foguete animado
 web/
-  favicon.svg                # favicon do site
+  favicon.png                # ⚠ adicione o favicon original aqui
   index.html / manifest.json
 ```
 
