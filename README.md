@@ -9,12 +9,14 @@ Landing page institucional da **RondoByte**, construída com **Flutter Web**.
 - `url_launcher` — abrir links de contato
 - `google_fonts` — tipografia Poppins
 
-## Logo original
+## Logo
 
-Para preservar a logo original da RondoByte, coloque os arquivos nesses caminhos antes de rodar:
+A logo oficial da RondoByte já está incluída no repositório:
 
-- `assets/images/logo.png` — logo usada no canto superior esquerdo
-- `web/favicon.png` — favicon do navegador (idealmente 512×512)
+- `assets/images/logo.png` (1772×1772) — usada no canto superior esquerdo
+- `web/favicon.png` (512×512) e `web/favicon-16.png` (16×16) — favicons
+- `web/icons/Icon-192.png` e `Icon-512.png` — ícones do PWA
+- `web/icons/apple-touch-icon.png` (180×180) — ícone iOS
 
 ## Como rodar
 
@@ -48,10 +50,12 @@ lib/
     services_section.dart
     contact_section.dart
 assets/images/
-  logo.png                   # ⚠ adicione a logo original aqui
+  logo.png                   # logo oficial RondoByte
   rocket.svg                 # foguete animado
 web/
-  favicon.png                # ⚠ adicione o favicon original aqui
+  favicon.png                # favicon principal (512×512)
+  favicon-16.png             # favicon 16×16
+  icons/                     # Icon-192/512 e apple-touch-icon
   index.html / manifest.json
 ```
 
