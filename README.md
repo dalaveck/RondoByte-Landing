@@ -35,6 +35,20 @@ flutter build web --release
 
 Os arquivos prontos para deploy ficam em `build/web/`.
 
+## Deploy na Vercel
+
+O `vercel.json` na raiz já configura tudo. No painel da Vercel:
+
+1. **Import Project** → conecte o repositório do GitHub.
+2. Em **Framework Preset** escolha `Other` (a Vercel vai ler o `vercel.json`).
+3. **Não** edite `Build Command`, `Output Directory` nem `Install Command` — os valores corretos já estão no `vercel.json`:
+   - `buildCommand`: clona o Flutter stable e roda `flutter build web --release`
+   - `outputDirectory`: `build/web`
+   - `rewrites`: faz fallback de todas as rotas para `index.html` (SPA)
+4. Clique em **Deploy**.
+
+O primeiro build leva ~3–5 minutos porque a Vercel baixa o Flutter SDK. Builds seguintes reaproveitam o cache.
+
 ## Estrutura
 
 ```
