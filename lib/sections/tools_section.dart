@@ -11,7 +11,8 @@ class ToolsSection extends StatelessWidget {
       description:
           'Converta extratos bancários no formato OFX para planilhas CSV '
           'prontas para usar no Excel, Google Sheets ou softwares contábeis.',
-      status: _ToolStatus.comingSoon,
+      status: _ToolStatus.available,
+      route: '/ofx-csv',
     ),
   ];
 
@@ -102,14 +103,14 @@ class _Tool {
   final String title;
   final String description;
   final _ToolStatus status;
-  final String? url;
+  final String? route;
 
   const _Tool({
     required this.icon,
     required this.title,
     required this.description,
     required this.status,
-    this.url,
+    this.route,
   });
 }
 
@@ -124,14 +125,26 @@ class _ToolCard extends StatefulWidget {
 class _ToolCardState extends State<_ToolCard> {
   bool _hover = false;
 
+  void _open() {
+    final route = widget.tool.route;
+    if (route == null) return;
+    Navigator.of(context).pushNamed(route);
+  }
+
   @override
   Widget build(BuildContext context) {
     final available = widget.tool.status == _ToolStatus.available;
+    final cursor = available
+        ? SystemMouseCursors.click
+        : SystemMouseCursors.basic;
 
     return MouseRegion(
+      cursor: cursor,
       onEnter: (_) => setState(() => _hover = true),
       onExit: (_) => setState(() => _hover = false),
-      child: AnimatedContainer(
+      child: GestureDetector(
+        onTap: available ? _open : null,
+        child: AnimatedContainer(
         duration: const Duration(milliseconds: 220),
         padding: const EdgeInsets.all(22),
         decoration: BoxDecoration(
@@ -195,6 +208,7 @@ class _ToolCardState extends State<_ToolCard> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

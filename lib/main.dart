@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'theme/app_theme.dart';
 import 'widgets/nav_bar.dart';
 import 'widgets/scrolling_rocket.dart';
@@ -8,8 +9,12 @@ import 'sections/about_section.dart';
 import 'sections/services_section.dart';
 import 'sections/tools_section.dart';
 import 'sections/contact_section.dart';
+import 'tools/ofx_to_csv/ofx_to_csv_page.dart';
 
-void main() => runApp(const RondoByteApp());
+void main() {
+  usePathUrlStrategy();
+  runApp(const RondoByteApp());
+}
 
 class RondoByteApp extends StatelessWidget {
   const RondoByteApp({super.key});
@@ -20,7 +25,11 @@ class RondoByteApp extends StatelessWidget {
       title: 'RondoByte',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      home: const LandingPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (_) => const LandingPage(),
+        '/ofx-csv': (_) => const OfxToCsvPage(),
+      },
     );
   }
 }
