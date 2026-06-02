@@ -4,12 +4,14 @@ import '../theme/app_theme.dart';
 class NavBar extends StatelessWidget {
   final VoidCallback onAboutTap;
   final VoidCallback onServicesTap;
+  final VoidCallback onToolsTap;
   final VoidCallback onContactTap;
 
   const NavBar({
     super.key,
     required this.onAboutTap,
     required this.onServicesTap,
+    required this.onToolsTap,
     required this.onContactTap,
   });
 
@@ -59,6 +61,8 @@ class NavBar extends StatelessWidget {
             const SizedBox(width: 28),
             _NavLink(label: 'Serviços', onTap: onServicesTap),
             const SizedBox(width: 28),
+            _NavLink(label: 'Ferramentas', onTap: onToolsTap),
+            const SizedBox(width: 28),
             _NavLink(label: 'Fale Conosco', onTap: onContactTap),
           ] else
             IconButton(
@@ -82,6 +86,13 @@ class NavBar extends StatelessWidget {
                           onTap: () {
                             Navigator.pop(context);
                             onServicesTap();
+                          },
+                        ),
+                        ListTile(
+                          title: const Text('Ferramentas'),
+                          onTap: () {
+                            Navigator.pop(context);
+                            onToolsTap();
                           },
                         ),
                         ListTile(

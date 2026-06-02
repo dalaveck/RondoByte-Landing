@@ -6,6 +6,7 @@ import 'widgets/scrolling_rocket.dart';
 import 'sections/hero_section.dart';
 import 'sections/about_section.dart';
 import 'sections/services_section.dart';
+import 'sections/tools_section.dart';
 import 'sections/contact_section.dart';
 
 void main() => runApp(const RondoByteApp());
@@ -35,6 +36,7 @@ class _LandingPageState extends State<LandingPage> {
   final ScrollController _scrollCtrl = ScrollController();
   final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _servicesKey = GlobalKey();
+  final GlobalKey _toolsKey = GlobalKey();
   final GlobalKey _contactKey = GlobalKey();
 
   @override
@@ -79,6 +81,10 @@ class _LandingPageState extends State<LandingPage> {
                     child: const ServicesSection(),
                   ),
                   KeyedSubtree(
+                    key: _toolsKey,
+                    child: const ToolsSection(),
+                  ),
+                  KeyedSubtree(
                     key: _contactKey,
                     child: const ContactSection(),
                   ),
@@ -94,6 +100,7 @@ class _LandingPageState extends State<LandingPage> {
             child: NavBar(
               onAboutTap: () => _scrollTo(_aboutKey),
               onServicesTap: () => _scrollTo(_servicesKey),
+              onToolsTap: () => _scrollTo(_toolsKey),
               onContactTap: () => _scrollTo(_contactKey),
             ),
           ),
