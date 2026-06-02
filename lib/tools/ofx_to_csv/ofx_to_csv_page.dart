@@ -178,58 +178,92 @@ class _OfxToCsvPageState extends State<OfxToCsvPage> {
                         ),
                       ),
                       const SizedBox(height: 36),
-                      DropZone(
-                        label: 'Arraste seu arquivo .ofx aqui',
-                        hint: 'ou clique no botão abaixo para selecionar. '
-                            'Tamanho máximo: 1 MB.',
-                        acceptedExtensions: const ['ofx'],
-                        onPick: _pickFile,
-                        onFileDropped: _acceptFile,
+                      Center(
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 520),
+                          child: DropZone(
+                            label: 'Arraste seu arquivo .ofx aqui',
+                            hint: 'ou clique no botão abaixo para selecionar. '
+                                'Tamanho máximo: 1 MB.',
+                            acceptedExtensions: const ['ofx'],
+                            hasFile: _file != null,
+                            onPick: _pickFile,
+                            onFileDropped: _acceptFile,
+                          ),
+                        ),
                       ),
                       if (_file != null) ...[
                         const SizedBox(height: 16),
-                        _FileChip(
-                          name: _file!.name,
-                          size: _file!.size,
-                          onClear: _reset,
+                        Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 520),
+                            child: _FileChip(
+                              name: _file!.name,
+                              size: _file!.size,
+                              onClear: _reset,
+                            ),
+                          ),
                         ),
                       ],
                       if (_error != null) ...[
                         const SizedBox(height: 16),
-                        _ErrorBanner(message: _error!),
-                      ],
-                      const SizedBox(height: 24),
-                      Row(
-                        children: [
-                          ElevatedButton.icon(
-                            onPressed: _file == null || _busy ? null : _convert,
-                            icon: _busy
-                                ? const SizedBox(
-                                    width: 16,
-                                    height: 16,
-                                    child: CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2,
-                                    ),
-                                  )
-                                : const Icon(Icons.bolt_rounded, size: 18),
-                            label: Text(_busy ? 'Convertendo...' : 'Converter'),
+                        Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 520),
+                            child: _ErrorBanner(message: _error!),
                           ),
-                          const SizedBox(width: 12),
-                          if (_csvOutput != null)
-                            ElevatedButton.icon(
-                              onPressed: _download,
-                              icon: const Icon(Icons.download_rounded, size: 18),
-                              label: const Text('Download CSV'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF1F9D55),
+                        ),
+                      ],
+                      const SizedBox(height: 28),
+                      Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 240,
+                              child: ElevatedButton.icon(
+                                onPressed:
+                                    _file == null || _busy ? null : _convert,
+                                icon: _busy
+                                    ? const SizedBox(
+                                        width: 16,
+                                        height: 16,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : const Icon(Icons.bolt_rounded, size: 18),
+                                label: Text(
+                                    _busy ? 'Convertendo...' : 'Converter'),
                               ),
                             ),
-                        ],
+                            if (_csvOutput != null) ...[
+                              const SizedBox(height: 14),
+                              SizedBox(
+                                width: 240,
+                                child: ElevatedButton.icon(
+                                  onPressed: _download,
+                                  icon: const Icon(Icons.download_rounded,
+                                      size: 18),
+                                  label: const Text('Download CSV'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF1F9D55),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
                       ),
                       if (_csvOutput != null) ...[
                         const SizedBox(height: 18),
-                        _SuccessBanner(count: _transactionCount),
+                        Center(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 520),
+                            child: _SuccessBanner(count: _transactionCount),
+                          ),
+                        ),
                       ],
                     ],
                   ),

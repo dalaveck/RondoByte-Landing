@@ -18,6 +18,7 @@ class DropZone extends StatefulWidget {
   final String label;
   final String hint;
   final List<String> acceptedExtensions;
+  final bool hasFile;
 
   const DropZone({
     super.key,
@@ -26,6 +27,7 @@ class DropZone extends StatefulWidget {
     required this.label,
     required this.hint,
     required this.acceptedExtensions,
+    this.hasFile = false,
   });
 
   @override
@@ -90,18 +92,31 @@ class _DropZoneState extends State<DropZone> {
 
   @override
   Widget build(BuildContext context) {
-    final accent = _dragging ? AppColors.accent : const Color(0xFFB7C2E8);
+    final Color borderColor;
+    final Color background;
+    final double borderWidth;
+    if (_dragging) {
+      borderColor = AppColors.accent;
+      background = AppColors.accent.withOpacity(0.06);
+      borderWidth = 2.5;
+    } else if (widget.hasFile) {
+      borderColor = AppColors.primary.withOpacity(0.35);
+      background = const Color(0xFFE2E7F7);
+      borderWidth = 1.5;
+    } else {
+      borderColor = const Color(0xFFB7C2E8);
+      background = AppColors.backgroundAlt;
+      borderWidth = 1.5;
+    }
     return AnimatedContainer(
       duration: const Duration(milliseconds: 180),
       padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 44),
       decoration: BoxDecoration(
-        color: _dragging
-            ? AppColors.accent.withOpacity(0.06)
-            : AppColors.backgroundAlt,
+        color: background,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
-          color: accent,
-          width: _dragging ? 2.5 : 1.5,
+          color: borderColor,
+          width: borderWidth,
           style: BorderStyle.solid,
         ),
       ),
