@@ -54,9 +54,9 @@ class ToolsSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 12),
-              const ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 720),
-                child: Text(
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 720),
+                child: const Text(
                   'Conversores rápidos e gratuitos que estamos desenvolvendo '
                   'para facilitar o seu dia a dia.',
                   style: TextStyle(
