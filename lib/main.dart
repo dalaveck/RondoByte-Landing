@@ -10,6 +10,8 @@ import 'sections/services_section.dart';
 import 'sections/tools_section.dart';
 import 'sections/contact_section.dart';
 import 'tools/ofx_to_csv/ofx_to_csv_page.dart';
+import 'politica/termo_chues_page.dart';
+import 'politica/termo_mimic_page.dart';
 
 void main() {
   usePathUrlStrategy();
@@ -29,6 +31,8 @@ class RondoByteApp extends StatelessWidget {
       routes: {
         '/': (_) => const LandingPage(),
         '/ofx-csv': (_) => const OfxToCsvPage(),
+        '/politica/termo-chues': (_) => const TermoChuesPage(),
+        '/politica/termo-mimic': (_) => const TermoMimicPage(),
       },
     );
   }
