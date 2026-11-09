@@ -78,3 +78,13 @@ web/
 - Instagram: [@rondobyte](https://instagram.com/rondobyte)
 - LinkedIn: [linkedin.com/company/112506054](https://www.linkedin.com/company/112506054)
 - Email: RondoByte@gmail.com
+
+## Flutter 3.47.9 (nota de 2026-11-09)
+
+O Flutter global desta máquina subiu para 3.47.9 (Dart 3.13.7) em 2026-11-09, com migração só em `cacauron_tec` e `agrocontrol`. Este repo **não foi migrado nem testado** nessa versão; a última resolução local foi no 3.41.8.
+
+Ao retomar:
+
+- A Vercel baixa o próprio Flutter: esta nota vale para o ambiente local.
+- Em debug e nos testes, `ListTile` sob `Container` ou `ColoredBox` com cor, sem `Material` entre eles, passa a dar erro.
+- `flutter pub get` deve alterar o `pubspec.lock`: o SDK fixa versões de alguns pacotes.
