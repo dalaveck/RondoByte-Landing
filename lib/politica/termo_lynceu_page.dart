@@ -322,7 +322,7 @@ class TermoLynceuPage extends StatelessWidget {
                   header: ['Provedor', 'Para onde vai', 'Pontos de atenção'],
                   rows: [
                     [
-                      'Claude (Anthropic). Padrão do app',
+                      'Claude (Anthropic)',
                       'Anthropic, EUA',
                       'Pode guardar o texto por um período, conforme a '
                           'política da API. Retenção zero só por contrato, e '
@@ -331,7 +331,7 @@ class TermoLynceuPage extends StatelessWidget {
                           'versão web',
                     ],
                     [
-                      'DeepSeek',
+                      'DeepSeek. Padrão do app',
                       'DeepSeek, China',
                       'Pelos termos lidos em novembro de 2026: guarda os dados '
                           'na China, sem prazo de retenção para a API nem '
