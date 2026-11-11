@@ -11,6 +11,7 @@ class PoliticaSection {
     this.paragraphs = const [],
     this.bullets = const [],
     this.subsections = const [],
+    this.tables = const [],
   });
 
   final String heading;
@@ -18,6 +19,9 @@ class PoliticaSection {
   final List<String> paragraphs;
   final List<String> bullets;
   final List<PoliticaSubsection> subsections;
+
+  /// Mostradas depois dos parágrafos e antes dos itens.
+  final List<PoliticaTabela> tables;
 }
 
 class PoliticaSubsection {
@@ -25,11 +29,23 @@ class PoliticaSubsection {
     required this.heading,
     this.paragraphs = const [],
     this.bullets = const [],
+    this.tables = const [],
   });
 
   final String heading;
   final List<String> paragraphs;
   final List<String> bullets;
+
+  /// Mostradas depois dos parágrafos e antes dos itens.
+  final List<PoliticaTabela> tables;
+}
+
+/// Tabela simples de texto. A primeira linha é o cabeçalho.
+class PoliticaTabela {
+  const PoliticaTabela({required this.header, required this.rows});
+
+  final List<String> header;
+  final List<List<String>> rows;
 }
 
 /// Shell visual compartilhado pelas páginas em `/politica/*`.
@@ -44,6 +60,17 @@ class PoliticaPage extends StatelessWidget {
     this.tocItems = const [],
     this.sections = const [],
     this.placeholderMessage,
+    this.eyebrow = 'PRIVACY POLICY',
+    this.lastUpdatedPrefix = 'Last updated',
+    this.summaryHeading = 'SUMMARY OF KEY POINTS',
+    this.summaryIntro =
+        'This summary provides key points from our Privacy Notice, '
+        'but you can find out more details about any of these topics '
+        'by using our table of contents below to find the section '
+        'you are looking for.',
+    this.tocHeading = 'TABLE OF CONTENTS',
+    this.inShortPrefix = 'In Short',
+    this.highlight,
   });
 
   final String title;
@@ -54,6 +81,17 @@ class PoliticaPage extends StatelessWidget {
   final List<String> tocItems;
   final List<PoliticaSection> sections;
   final String? placeholderMessage;
+
+  /// Rótulos fixos da página. O padrão é inglês; as políticas em pt-BR trocam.
+  final String eyebrow;
+  final String lastUpdatedPrefix;
+  final String summaryHeading;
+  final String summaryIntro;
+  final String tocHeading;
+  final String inShortPrefix;
+
+  /// Aviso em destaque logo abaixo do cabeçalho.
+  final String? highlight;
 
   @override
   Widget build(BuildContext context) {
@@ -79,9 +117,9 @@ class PoliticaPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'PRIVACY POLICY',
-                        style: TextStyle(
+                      Text(
+                        eyebrow,
+                        style: const TextStyle(
                           color: AppColors.accent,
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -110,7 +148,7 @@ class PoliticaPage extends StatelessWidget {
                       if (lastUpdated != null) ...[
                         const SizedBox(height: 8),
                         SelectableText(
-                          'Last updated $lastUpdated',
+                          '$lastUpdatedPrefix $lastUpdated',
                           style: const TextStyle(
                             fontSize: 13,
                             color: AppColors.textMuted,
@@ -122,26 +160,19 @@ class PoliticaPage extends StatelessWidget {
                       if (placeholderMessage != null && !hasContent)
                         _PlaceholderBox(message: placeholderMessage!)
                       else ...[
+                        if (highlight != null) _HighlightBox(text: highlight!),
                         ...intro.map(_bodyParagraph),
                         if (summaryBullets.isNotEmpty) ...[
                           const SizedBox(height: 12),
-                          const _SectionHeading(
-                            'SUMMARY OF KEY POINTS',
-                          ),
+                          _SectionHeading(summaryHeading),
                           const SizedBox(height: 10),
-                          SelectableText(
-                            'This summary provides key points from our Privacy Notice, '
-                            'but you can find out more details about any of these topics '
-                            'by using our table of contents below to find the section '
-                            'you are looking for.',
-                            style: _bodyStyle,
-                          ),
+                          SelectableText(summaryIntro, style: _bodyStyle),
                           const SizedBox(height: 12),
                           ...summaryBullets.map(_bullet),
                         ],
                         if (tocItems.isNotEmpty) ...[
                           const SizedBox(height: 28),
-                          const _SectionHeading('TABLE OF CONTENTS'),
+                          _SectionHeading(tocHeading),
                           const SizedBox(height: 10),
                           ...tocItems.map(
                             (item) => Padding(
@@ -162,7 +193,10 @@ class PoliticaPage extends StatelessWidget {
                         ...sections.map(
                           (section) => Padding(
                             padding: const EdgeInsets.only(bottom: 32),
-                            child: _SectionBlock(section: section),
+                            child: _SectionBlock(
+                              section: section,
+                              inShortPrefix: inShortPrefix,
+                            ),
                           ),
                         ),
                       ],
@@ -231,9 +265,10 @@ class _SectionHeading extends StatelessWidget {
 }
 
 class _SectionBlock extends StatelessWidget {
-  const _SectionBlock({required this.section});
+  const _SectionBlock({required this.section, required this.inShortPrefix});
 
   final PoliticaSection section;
+  final String inShortPrefix;
 
   static const TextStyle _bodyStyle = TextStyle(
     fontSize: 15,
@@ -258,7 +293,7 @@ class _SectionBlock extends StatelessWidget {
               border: Border.all(color: const Color(0xFFE6EAFB)),
             ),
             child: SelectableText(
-              'In Short: ${section.inShort}',
+              '$inShortPrefix: ${section.inShort}',
               style: const TextStyle(
                 fontSize: 14,
                 color: AppColors.textDark,
@@ -275,6 +310,7 @@ class _SectionBlock extends StatelessWidget {
             child: SelectableText(p, style: _bodyStyle),
           ),
         ),
+        ...section.tables.map((t) => _Tabela(tabela: t)),
         ...section.bullets.map(_bullet),
         ...section.subsections.map(
           (sub) => Padding(
@@ -298,6 +334,7 @@ class _SectionBlock extends StatelessWidget {
                     child: SelectableText(p, style: _bodyStyle),
                   ),
                 ),
+                ...sub.tables.map((t) => _Tabela(tabela: t)),
                 ...sub.bullets.map(_bullet),
               ],
             ),
@@ -349,6 +386,91 @@ class _PlaceholderBox extends StatelessWidget {
           color: AppColors.textMuted,
           height: 1.6,
         ),
+      ),
+    );
+  }
+}
+
+class _HighlightBox extends StatelessWidget {
+  const _HighlightBox({required this.text});
+
+  final String text;
+
+  static const _alerta = Color(0xFFB45309);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF7E6),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: _alerta, width: 1.5),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.warning_amber_rounded, color: _alerta),
+          const SizedBox(width: 12),
+          Expanded(
+            child: SelectableText(
+              text,
+              style: const TextStyle(
+                fontSize: 15,
+                color: AppColors.textDark,
+                fontWeight: FontWeight.w600,
+                height: 1.6,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Tabela extends StatelessWidget {
+  const _Tabela({required this.tabela});
+
+  final PoliticaTabela tabela;
+
+  static const _borda = Color(0xFFE6EAFB);
+
+  @override
+  Widget build(BuildContext context) {
+    Widget celula(String texto, {bool cabecalho = false}) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          child: SelectableText(
+            texto,
+            style: TextStyle(
+              fontSize: 13.5,
+              height: 1.5,
+              color: cabecalho ? AppColors.primary : AppColors.textMuted,
+              fontWeight: cabecalho ? FontWeight.w700 : FontWeight.w400,
+            ),
+          ),
+        );
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 4, bottom: 14),
+      child: Table(
+        border: TableBorder.all(
+          color: _borda,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        defaultVerticalAlignment: TableCellVerticalAlignment.top,
+        children: [
+          TableRow(
+            decoration: const BoxDecoration(color: AppColors.backgroundAlt),
+            children: [
+              for (final h in tabela.header) celula(h, cabecalho: true),
+            ],
+          ),
+          for (final linha in tabela.rows)
+            TableRow(children: [for (final c in linha) celula(c)]),
+        ],
       ),
     );
   }
